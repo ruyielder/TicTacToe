@@ -64,4 +64,14 @@ class Board
     @fields[row_index][column_index].value = field_value
   end
 
+  def is_full_filled?
+    @fields.each do |row|
+      row.each_with_index do |field|
+        return false if field.value == Field::DEFAULT_VALUE
+      end
+    end
+
+    true
+  end
+
 end

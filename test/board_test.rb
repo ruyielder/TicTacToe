@@ -41,4 +41,14 @@ describe Board do
     board.free?(0).must_equal false
   end
 
+  it 'can be full filled' do
+    board = Board.create_with_values([[:'X', :'X'], [:'X', :'O']])
+    board.is_full_filled?.must_equal true
+  end
+
+  it 'can be not full filled' do
+    board = Board.create_with_values([[:' ', :'X'], [:'X', :'O']])
+    board.is_full_filled?.must_equal false
+  end
+
 end
