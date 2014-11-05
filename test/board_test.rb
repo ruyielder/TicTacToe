@@ -1,6 +1,15 @@
 require 'minitest/autorun'
 require_relative '../app/board'
 
+class FakeField
+  attr_accessor :value
+
+  def initialize(value)
+    @value = value
+  end
+
+end
+
 describe Board do
 
   it 'can be created with default size' do
@@ -14,7 +23,10 @@ describe Board do
   end
 
   it 'can be created with fields' do
-    board = Board.new([[:' ', :' '], [:' ', :' ']])
+    board = Board.new(
+        [[FakeField.new(:' '), FakeField.new(:' ')],
+         [FakeField.new(:' '), FakeField.new(:' ')]
+    ])
     board.size.must_equal 2
   end
 
@@ -28,7 +40,10 @@ describe Board do
   end
 
   it 'can checks free field' do
-    board = Board.create_with_values([[:' ', :' '], [:'X', :'O']])
+    board = Board.new([
+       [FakeField.new(:' '), FakeField.new(:' ')],
+       [FakeField.new(:'X'), FakeField.new(:'O')]
+    ])
     board.free?(0).must_equal true
     board.free?(1).must_equal true
     board.free?(2).must_equal false
@@ -42,13 +57,84 @@ describe Board do
   end
 
   it 'can be full filled' do
-    board = Board.create_with_values([[:'X', :'X'], [:'X', :'O']])
+    board = Board.new([
+      [FakeField.new(:'X'), FakeField.new(:'X')],
+      [FakeField.new(:'X'), FakeField.new(:'O')]
+    ])
     board.is_full_filled?.must_equal true
   end
 
   it 'can be not full filled' do
-    board = Board.create_with_values([[:' ', :'X'], [:'X', :'O']])
+    board = Board.new([
+      [FakeField.new(:' '), FakeField.new(:'X')],
+      [FakeField.new(:'X'), FakeField.new(:'O')]
+    ])
     board.is_full_filled?.must_equal false
+  end
+
+  it 'can detect top horizonal line' do
+    Board.new([
+      [FakeField.new(:'X'), FakeField.new(:'X'), FakeField.new(:'X')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect middle horizonal line' do
+    Board.new([
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:'X'), FakeField.new(:'X'), FakeField.new(:'X')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect bottom horizonal line' do
+    Board.new([
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:'X'), FakeField.new(:'X'), FakeField.new(:'X')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect left vertical line' do
+    Board.new([
+      [FakeField.new(:'X'), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:'X'), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:'X'), FakeField.new(:' '), FakeField.new(:' ')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect middle vertical line' do
+    Board.new([
+      [FakeField.new(:' '), FakeField.new(:'X'), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:'X'), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:'X'), FakeField.new(:' ')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect right vertical line' do
+    Board.new([
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:'X')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:'X')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:'X')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+
+  it 'can detect bottom-up cross line' do
+    Board.new([
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:'X')],
+      [FakeField.new(:' '), FakeField.new(:'X'), FakeField.new(:' ')],
+      [FakeField.new(:'X'), FakeField.new(:' '), FakeField.new(:' ')]
+    ]).contains_filled_line_by?(:'X').must_equal true
+  end
+
+  it 'can detect up-bottom cross line' do
+    Board.new([
+      [FakeField.new(:'X'), FakeField.new(:' '), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:'X'), FakeField.new(:' ')],
+      [FakeField.new(:' '), FakeField.new(:' '), FakeField.new(:'X')]
+    ]).contains_filled_line_by?(:'X').must_equal true
   end
 
 end

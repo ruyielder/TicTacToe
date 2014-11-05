@@ -1,4 +1,5 @@
 require_relative 'field'
+require_relative 'field_value_line_enumerator'
 
 class Board
   DEFAULT_SIZE = 3
@@ -8,6 +9,7 @@ class Board
   def initialize(fields)
     @fields = fields
     @size = fields.size
+    @lines = FieldValueLineEnumerator.new(fields)
   end
 
   def Board.create_with_default_size
@@ -73,5 +75,10 @@ class Board
 
     true
   end
+
+  def contains_filled_line_by?(value)
+    @lines.any? {|line| line.uniq == [value]}
+  end
+
 
 end
