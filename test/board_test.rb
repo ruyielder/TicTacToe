@@ -35,4 +35,10 @@ describe Board do
     board.free?(3).must_equal false
   end
 
+  it 'allows to take field' do
+    board = Board.create_with_default_size
+    board.take_field(0, :'X')
+    board.free?(0).must_equal false
+  end
+
 end

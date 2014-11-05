@@ -58,4 +58,10 @@ class Board
     @fields[row_index][column_index].value == Field::DEFAULT_VALUE
   end
 
+  def take_field(field_index, field_value)
+    row_index = field_index / @size
+    column_index = field_index % @size
+    @fields[row_index][column_index].value = field_value
+  end
+
 end
