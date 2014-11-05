@@ -18,4 +18,13 @@ describe Board do
     board.size.must_equal 2
   end
 
+  it 'can be rendered' do
+    board = Board.create_with_default_size
+    board.render.must_equal (
+      "[0] [1] [2] \n" +
+      "[3] [4] [5] \n" +
+      "[6] [7] [8] \n"
+    ), board.render
+  end
+
 end

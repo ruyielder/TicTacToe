@@ -41,4 +41,15 @@ class Board
     Board.new(fields)
   end
 
+  def render
+    text = ''
+    @fields.each do |row|
+      row.each do |field|
+        text += field.render + ' '
+      end
+      text += "\n"
+    end
+    text
+  end
+
 end
