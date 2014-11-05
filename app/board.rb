@@ -30,9 +30,9 @@ class Board
   def Board.create_with_values(values)
     size = values.size
     fields = []
-    values.each_index do |row, row_index|
+    values.each_with_index do |row, row_index|
       field_row = []
-      row.each_index do |value, column_index|
+      row.each_with_index do |value, column_index|
         index = row_index * size + column_index
         field_row << Field.new(value,  index)
       end
