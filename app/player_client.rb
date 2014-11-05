@@ -25,7 +25,7 @@ class PlayerClient < Client
       user_index = user_value.to_i
 
       unless index_validator.is_valid?(user_index)
-        print_message 'Podany index jest już zajęty! Spróbuj jeszcze raz'
+        print_message 'Podany index jest niedostępny! Spróbuj jeszcze raz'
         next
       end
 
