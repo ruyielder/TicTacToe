@@ -52,4 +52,10 @@ class Board
     text
   end
 
+  def free?(index)
+    row_index = index / @size
+    column_index = index % @size
+    @fields[row_index][column_index].value == Field::DEFAULT_VALUE
+  end
+
 end

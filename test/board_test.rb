@@ -27,4 +27,12 @@ describe Board do
     ), board.render
   end
 
+  it 'can checks free field' do
+    board = Board.create_with_values([[:' ', :' '], [:'X', :'O']])
+    board.free?(0).must_equal true
+    board.free?(1).must_equal true
+    board.free?(2).must_equal false
+    board.free?(3).must_equal false
+  end
+
 end
